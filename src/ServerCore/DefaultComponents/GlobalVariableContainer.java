@@ -1,4 +1,4 @@
-package TeamCore.DefaultComponents;
+package ServerCore.DefaultComponents;
 
 public class GlobalVariableContainer<T> {
     public T value;

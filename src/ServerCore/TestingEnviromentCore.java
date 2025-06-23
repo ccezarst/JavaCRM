@@ -1,11 +1,11 @@
-package TeamCore;
+package ServerCore;
 
-
-import TeamCore.DefaultComponents.CoreComponent;
 
 import java.util.ArrayList;
 
-public final class TestingEnviromentCore extends TeamCore {
+import ServerCore.DefaultComponents.CoreComponent;
+
+public final class TestingEnviromentCore extends ServerCore {
     public TestingEnviromentCore() {
     	super();
         this.activateInteractionLogging();

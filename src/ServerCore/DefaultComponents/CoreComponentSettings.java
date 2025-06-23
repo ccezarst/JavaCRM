@@ -1,4 +1,4 @@
-package TeamCore.DefaultComponents;
+package ServerCore.DefaultComponents;
 
 import java.util.ArrayList;
 

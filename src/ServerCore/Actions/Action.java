@@ -1,4 +1,4 @@
-package TeamCore.Actions;
+package ServerCore.Actions;
 
 import java.util.ArrayList;
 import java.util.Arrays;

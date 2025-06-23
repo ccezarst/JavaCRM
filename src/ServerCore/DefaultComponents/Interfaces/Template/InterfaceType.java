@@ -1,4 +1,4 @@
-package TeamCore.DefaultComponents.Interfaces.Template;
+package ServerCore.DefaultComponents.Interfaces.Template;
 
 public enum InterfaceType {
     DRIVE_MOTORS,

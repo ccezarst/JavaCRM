@@ -1,9 +1,9 @@
-package TeamCore.DefaultComponents.Interfaces.Template;
+package ServerCore.DefaultComponents.Interfaces.Template;
 
-import TeamCore.DefaultComponents.ComponentType;
-import TeamCore.TeamCore;
+import ServerCore.ServerCore;
+import ServerCore.DefaultComponents.ComponentType;
 
-public abstract class SoftwareInterface extends Interface {
+public abstract class HardwareInterface extends Interface {
     private static ComponentType[] addX(ComponentType arr[], ComponentType x) {
 
         ComponentType newarr[] = new ComponentType[arr.length + 1];
@@ -19,8 +19,7 @@ public abstract class SoftwareInterface extends Interface {
 
         return newarr;
     }
-
-    public SoftwareInterface(String cName, Boolean active, TeamCore core, InterfaceType interfaceTye, ComponentType... types){
-        super(cName, active, core, interfaceTye, addX(types, ComponentType.SOFTWARE_INTERFACE));
+    public HardwareInterface(String cName, Boolean active, ServerCore core, InterfaceType interfaceTye, ComponentType... types){
+        super(cName, active, core, interfaceTye,addX(types, ComponentType.HARDARE_INTERFACE));
     }
 }

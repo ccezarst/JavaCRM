@@ -1,8 +1,8 @@
-package TeamCore.DefaultComponents.Interfaces.Template;
+package ServerCore.DefaultComponents.Interfaces.Template;
 
-import TeamCore.DefaultComponents.ComponentType;
-import TeamCore.DefaultComponents.CoreComponent;
-import TeamCore.TeamCore;
+import ServerCore.ServerCore;
+import ServerCore.DefaultComponents.ComponentType;
+import ServerCore.DefaultComponents.CoreComponent;
 
 public abstract class Interface extends CoreComponent {
     public final InterfaceType interfaceType;
@@ -22,7 +22,7 @@ public abstract class Interface extends CoreComponent {
 
         return newarr;
     }
-    public Interface(String name, Boolean active, TeamCore core, InterfaceType interfType, ComponentType... type) {
+    public Interface(String name, Boolean active, ServerCore core, InterfaceType interfType, ComponentType... type) {
         super(name, active, core, addX(type, ComponentType.INTERFACE));
         this.interfaceType = interfType;
     }

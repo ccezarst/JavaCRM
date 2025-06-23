@@ -1,12 +1,4 @@
-package TeamCore;
-
-import TeamCore.Actions.Action;
-import TeamCore.Actions.ActionDataContainer;
-import TeamCore.DefaultComponents.ComponentType;
-import TeamCore.DefaultComponents.CoreComponent;
-import TeamCore.DefaultComponents.GlobalVariableContainer;
-import TeamCore.DefaultComponents.Interfaces.Template.Interface;
-import TeamCore.DefaultComponents.Interfaces.Template.InterfaceType;
+package ServerCore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +7,15 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class TeamCore {
+import ServerCore.Actions.Action;
+import ServerCore.Actions.ActionDataContainer;
+import ServerCore.DefaultComponents.ComponentType;
+import ServerCore.DefaultComponents.CoreComponent;
+import ServerCore.DefaultComponents.GlobalVariableContainer;
+import ServerCore.DefaultComponents.Interfaces.Template.Interface;
+import ServerCore.DefaultComponents.Interfaces.Template.InterfaceType;
+
+public class ServerCore {
     private ArrayList<CoreComponent> components = new ArrayList<CoreComponent>();
 
     private Map<String, GlobalVariableContainer> globalVariables;
@@ -27,7 +27,7 @@ public class TeamCore {
 
     private boolean logInteractions = false;
 
-    public TeamCore(){
+    public ServerCore(){
         this.superSecretFunc();
     }
 
@@ -257,7 +257,7 @@ public class TeamCore {
 
     //                      -- INTERFACES
 
-
+    /*
     public final ArrayList<Interface> getInterfacesOfType(InterfaceType type){
         ArrayList<CoreComponent> interfs = this.getComponentsOfType(ComponentType.INTERFACE);
         ArrayList<Interface> toReturn = new ArrayList<>();
@@ -285,7 +285,7 @@ public class TeamCore {
         }
         return toReturn;
     }
-
+	*/
 
     //                      -- THREADING
 
@@ -344,10 +344,16 @@ public class TeamCore {
     }
 
     public void init(){this.update();} // the same
-
+    
+    public boolean oneThreadPerComponent = false;
+    
+    
     public void update(){
         this.reorderComponents(); // just to be safe
     //  ----------- this.getComponentFromName("UI_Manager", UI_Manager.class).showWarning(this.components.toString());
+        if(this.oneThreadPerComponent) {
+        	this.threads = this.components.size();
+        }
         this.threadsList.clear();
         for(int i = 0; i < this.threads; i++){
             this.createNewThread();

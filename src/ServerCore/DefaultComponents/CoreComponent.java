@@ -1,18 +1,18 @@
-package TeamCore.DefaultComponents;
-
-import TeamCore.TeamCore;
-import TeamCore.TestingEnviromentCore;
+package ServerCore.DefaultComponents;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import ServerCore.ServerCore;
+import ServerCore.TestingEnviromentCore;
+
 public abstract class CoreComponent {
     public boolean active = false;
     public final String name;
     public final ComponentType[] types;
-    public final TeamCore core;
+    public final ServerCore core;
     public final ArrayList<CoreComponentSettings> settings;
     public final ArrayList<ComponentType> dependencies;
 
@@ -22,7 +22,7 @@ public abstract class CoreComponent {
 
         public ArrayList<Consumer<Integer>> stepFuncs = new ArrayList<>();
         public Map<String, Integer> attachedComponentStepIndex = new HashMap<>();
-        public TeamCore core;
+        public ServerCore core;
         public Boolean stepNotifier = false;
 
         private ArrayList<Integer> pausedComponents = new ArrayList<>();
@@ -93,7 +93,7 @@ public abstract class CoreComponent {
             this.pausedComponents.remove(index);
         }
 
-        public CoreComponentBackingThread(TeamCore core){
+        public CoreComponentBackingThread(ServerCore core){
             this.core = core;
         }
 
@@ -144,10 +144,10 @@ public abstract class CoreComponent {
     }
 
 
-    public CoreComponent(String name, Boolean active, TeamCore core, ComponentType... type){
+    public CoreComponent(String name, Boolean active, ServerCore core, ComponentType... type){
         this(name, active, core, new ArrayList<>(), type);
     }
-    public CoreComponent(String name, Boolean active, TeamCore core, ArrayList<ComponentType> dependencies,ComponentType... type){
+    public CoreComponent(String name, Boolean active, ServerCore core, ArrayList<ComponentType> dependencies,ComponentType... type){
         if(name != null && !name.isEmpty()){
             this.name = name;
             this.active = active;
@@ -211,20 +211,20 @@ public abstract class CoreComponent {
         return caca;
     }
 
-    public final void primitiveStep(TeamCore core){
+    public final void primitiveStep(ServerCore core){
         if(this.active){
             this.step(core);
         }
     }
 
-    protected abstract void step(TeamCore core);
+    protected abstract void step(ServerCore core);
 
-    public final void primitiveUpdate(TeamCore core){
+    public final void primitiveUpdate(ServerCore core){
         if(this.active){
             this.update(core);
         }
     }
-    protected abstract void update(TeamCore core); // update function should contain all init code
+    protected abstract void update(ServerCore core); // update function should contain all init code
     // to allow real-time updating of components and hot testing of components
 
     public final int primitiveTest(TestingEnviromentCore core){
