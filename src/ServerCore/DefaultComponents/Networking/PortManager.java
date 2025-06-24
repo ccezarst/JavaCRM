@@ -45,8 +45,10 @@ public class PortManager extends CoreComponent{
 		}
 		if(man != null) {
 			synchronized(this.man) {
-				this.man = this.core.getComponentFromName("ConnectionManger", ConnectionManager.class);
+				this.man = this.core.getComponentFromName("ConnectionManager", ConnectionManager.class);
 			}
+		}else {
+			this.man = this.core.getComponentFromName("ConnectionManager", ConnectionManager.class);
 		}
 	}
 

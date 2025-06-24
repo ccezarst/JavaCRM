@@ -12,8 +12,6 @@ import ServerCore.Actions.ActionDataContainer;
 import ServerCore.DefaultComponents.ComponentType;
 import ServerCore.DefaultComponents.CoreComponent;
 import ServerCore.DefaultComponents.GlobalVariableContainer;
-import ServerCore.DefaultComponents.Interfaces.Template.Interface;
-import ServerCore.DefaultComponents.Interfaces.Template.InterfaceType;
 
 public class ServerCore {
     private ArrayList<CoreComponent> components = new ArrayList<CoreComponent>();

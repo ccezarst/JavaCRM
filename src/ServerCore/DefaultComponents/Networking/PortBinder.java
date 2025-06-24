@@ -26,6 +26,7 @@ public class PortBinder extends CoreComponent{
 			synchronized(this.man) {
 				try {
 					Socket s = soc.accept();
+					this.man.receiveNewConnection(new RConnection(s));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -37,7 +38,7 @@ public class PortBinder extends CoreComponent{
 	@Override
 	protected void update(ServerCore core) {
 		try {
-			if(this.soc != null) {
+			if(this.soc == null) {
 				this.soc = new ServerSocket(port);
 				this.man = this.core.getComponentFromName("PortManager", PortManager.class);	
 			}else {

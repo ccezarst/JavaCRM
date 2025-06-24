@@ -127,7 +127,9 @@ public abstract class CoreComponent {
                     this.stoppedRunning = true;
                     break;
                 }
-                this.stepNotifier.notifyAll();
+                synchronized(this.stepNotifier) {
+                	this.stepNotifier.notifyAll();	
+                }
             }
         }
 

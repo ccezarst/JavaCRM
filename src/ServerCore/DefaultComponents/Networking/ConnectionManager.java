@@ -1,6 +1,9 @@
 package ServerCore.DefaultComponents.Networking;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 import ServerCore.ServerCore;
 import ServerCore.TestingEnviromentCore;
@@ -10,16 +13,46 @@ import ServerCore.DefaultComponents.CoreComponent;
 public class ConnectionManager extends CoreComponent{
 
 	public ConnectionManager(Boolean active, ServerCore core) {
-		super("CoreComponent", active, core, ComponentType.CONNECTION_MANAGER);
+		super("ConnectionManager", active, core, ComponentType.CONNECTION_MANAGER);
 		// TODO Auto-generated constructor stub
 	}
 	
-	protected ArrayList<RConnection> conQueue = new ArrayList<>();
+	protected ExecutorService es;
+	
+	protected class ConnectionHandlerFinder implements Runnable{ // is a task executed in parallel that finds the protocol
+		public RConnection c;
+		public ServerCore core;
+		public Consumer<ConnectionHandler> callback;
+		public ConnectionHandlerFinder(RConnection c, ServerCore s, Consumer<ConnectionHandler> callback) {
+			this.c = c;
+			this.core = s;
+			this.callback = callback;
+		}
+		@Override
+		public void run() {
+			synchronized(this.core){
+				synchronized(this.c) {
+					ArrayList<CoreComponent> comps = this.core.getComponentsOfType(ComponentType.PROTOCOL_HANDLER);
+					System.console().printf("Received connection from " + c.senderIP.toString() + "\n");
+					for(CoreComponent cp: comps) {
+						ProtocolHandler ph = (ProtocolHandler) cp;
+						if(ph.accept(c)) {
+							callback.accept(ph.getHandler(c));
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+	}
+	
+	protected void chfCallback(ConnectionHandler ph) {
+		
+	}
 	
 	public void receiveNewConnection(RConnection c) {
-		synchronized (this.conQueue) {
-			this.conQueue.add(c);
-		}
+		this.es.execute(new ConnectionHandlerFinder(c, this.core, con -> {this.chfCallback(con);})	);
 	}
 
 	@Override
@@ -30,8 +63,14 @@ public class ConnectionManager extends CoreComponent{
 
 	@Override
 	protected void update(ServerCore core) {
-		// TODO Auto-generated method stub
-		
+		if(this.es != null) {
+			synchronized(this.es) {
+				this.es = Executors.newCachedThreadPool();
+			}
+		}else {
+			this.es = Executors.newCachedThreadPool();
+		}
+		// will create a pool which automatically adds threads when needed and keeps old ones for 60 seconds(to be possibly reused)
 	}
 
 	@Override
