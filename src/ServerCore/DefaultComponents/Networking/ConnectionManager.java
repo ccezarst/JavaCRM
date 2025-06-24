@@ -1,5 +1,6 @@
 package ServerCore.DefaultComponents.Networking;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -41,13 +42,19 @@ public class ConnectionManager extends CoreComponent{
 							break;
 						}
 					}
+					try {
+						c.connectionSocket.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
 		
 	}
 	
-	protected void chfCallback(ConnectionHandler ph) {
+	protected void chfCallback(ConnectionHandler ph) { // is not called if protocol handler is not found, connection is automatically closed.
 		
 	}
 	
