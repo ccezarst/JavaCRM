@@ -23,11 +23,9 @@ public class ConnectionManager extends CoreComponent{
 	protected class ConnectionHandlerFinder implements Runnable{ // is a task executed in parallel that finds the protocol
 		public RConnection c;
 		public ServerCore core;
-		public Consumer<ConnectionHandler> callback;
-		public ConnectionHandlerFinder(RConnection c, ServerCore s, Consumer<ConnectionHandler> callback) {
+		public ConnectionHandlerFinder(RConnection c, ServerCore s) {
 			this.c = c;
 			this.core = s;
-			this.callback = callback;
 		}
 		@Override
 		public void run() {
@@ -35,15 +33,20 @@ public class ConnectionManager extends CoreComponent{
 				synchronized(this.c) {
 					ArrayList<CoreComponent> comps = this.core.getComponentsOfType(ComponentType.PROTOCOL_HANDLER);
 					System.console().printf("Received connection from " + c.senderIP.toString() + "\n");
+					boolean found = false;
 					for(CoreComponent cp: comps) {
 						ProtocolHandler ph = (ProtocolHandler) cp;
-						if(ph.accept(c)) {
-							callback.accept(ph.getHandler(c));
+						ConnectionHandler h = ph.getHandler(c);
+						if(h != null) {
+							es.execute(h);
+							found = true;
 							break;
 						}
 					}
 					try {
-						c.connectionSocket.close();
+						if(!found) {
+							c.connectionSocket.close();	
+						}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -54,12 +57,9 @@ public class ConnectionManager extends CoreComponent{
 		
 	}
 	
-	protected void chfCallback(ConnectionHandler ph) { // is not called if protocol handler is not found, connection is automatically closed.
-		
-	}
 	
 	public void receiveNewConnection(RConnection c) {
-		this.es.execute(new ConnectionHandlerFinder(c, this.core, con -> {this.chfCallback(con);})	);
+		this.es.execute(new ConnectionHandlerFinder(c, this.core));
 	}
 
 	@Override

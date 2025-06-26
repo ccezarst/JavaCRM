@@ -13,7 +13,6 @@ public abstract class ProtocolHandler extends CoreComponent{
 		super(name, active, core, dependencies, ComponentType.PROTOCOL_HANDLER);
 	}
 	
-	public abstract boolean accept(RConnection c);
 	public abstract ConnectionHandler getHandler(RConnection c);
 
 }

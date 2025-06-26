@@ -5,5 +5,6 @@ public enum ComponentType {
 	PORT_MANAGER,
 	CONNECTION_MANAGER,
 	PROTOCOL_HANDLER,
+	HTTP_ROUTER,
     OTHER
 }
