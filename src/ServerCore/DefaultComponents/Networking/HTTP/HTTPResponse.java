@@ -25,6 +25,8 @@ public class HTTPResponse {
 	public boolean closeAfterResponse = false;
 	public HTTPRequest relatedRequest;
 	
+	public boolean wasSent = false;
+	
 	protected HTTPWriter writer;
 	
 	public HTTPResponse(HTTPRequest req) {
@@ -106,11 +108,19 @@ public class HTTPResponse {
 				if(this.res.closeAfterResponse) {
 					this.con.connectionSocket.close();
 				}
+				wasSent = true;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void bodyPrintln(String line){
+		this.body += line + "\n";
+	}
+	public void bodyPrint(String line) {
+		this.body += line;
 	}
 	
 }

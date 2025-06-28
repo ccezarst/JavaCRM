@@ -6,5 +6,6 @@ public enum ComponentType {
 	CONNECTION_MANAGER,
 	PROTOCOL_HANDLER,
 	HTTP_ROUTER,
+	HTTP_ENDPOINT,
     OTHER
 }

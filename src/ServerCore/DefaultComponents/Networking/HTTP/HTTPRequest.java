@@ -28,6 +28,8 @@ public class HTTPRequest {
 	public String protocolVersion;
 	public Methods method;
 	public String body;
+	public ArrayList<String> pathParameters;
+	public Map<String, String> queryParameters;
 	public InetAddress orgIp;
 	public Map<String, ArrayList<String>> headers = new HashMap<>();
 	public RConnection con;
@@ -287,6 +289,10 @@ public class HTTPRequest {
 					break;
 			}
 			req.path = elems[1];
+			if(req.path.charAt(req.path.length() - 1) == '/') {
+				req.path = req.path.substring(0, req.path.length() - 1);
+			}
+			req.path = req.path.strip();
 			req.protocolVersion = elems[2];
 			req.orgIp = this.con.senderIP;
 			req.headers = this.getRequestHeaders();

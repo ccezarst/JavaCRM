@@ -1,5 +1,6 @@
 package ServerCore;
 
+import ServerCore.CustomComponents.TestingEndpoint;
 import ServerCore.DefaultComponents.Networking.ConnectionManager;
 import ServerCore.DefaultComponents.Networking.PortBinder;
 import ServerCore.DefaultComponents.Networking.PortManager;
@@ -14,6 +15,7 @@ public class appEntry {
 		core.addComponent(new PortManager(true, core));
 		core.addComponent(new HTTPHandler(true, core));
 		core.addComponent(new HTTPRouter(true, core));
+		core.addComponent(new TestingEndpoint(true, core));
 		core.addComponent(new PortBinder("TestingPort", true, core, 42076));
 		System.console().printf("Starting server\n");
 		core.init();
